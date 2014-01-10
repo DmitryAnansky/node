@@ -11,8 +11,8 @@ var log     = require('./libs/log')(module);
 
 var app = express();
 
-app.set('ejs', require('ejs-locals')); //layout partial block
-app.set('views', path.join(__dirname, 'views'));
+app.engine('ejs', require('ejs-locals')); //layout partial block
+app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'ejs');
 
 //Middleware

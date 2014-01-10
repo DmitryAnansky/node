@@ -2,12 +2,11 @@
 <html>
 <head>
     <title><%=blocks.title%></title>
-<!--ToDo: add bootstrap-->
-    <!--<link href="css/bootstrap.min.css" rel="stylesheet"/>-->
-    <!--<link href="css/main.css" rel="stylesheet"/>-->
+    <link href="/vendor/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/stylesheets/app.css" rel="stylesheet"/>
 
-    <!--<script src="https://code.jquery.com/jquery.js"></script>-->
-    <!--<script src="js/bootstrap.min.js"></script>-->
+    <script src="/vendor/bower_components/jquery/jquery.js"></script>
+    <script src="/vendor/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body>
 
@@ -16,8 +15,11 @@
 </header>
 
 <section class="container">
+
     <%-partial('../partials/topNavigation')%>
-    <h1><%blocks.title%></h1>
+
+    <h1><%=blocks.title%></h1>
+
     <%-body -%>
 </section>
 
