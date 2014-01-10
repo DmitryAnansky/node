@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%=blocks.title%></title>
+<!--ToDo: add bootstrap-->
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet"/>-->
+    <!--<link href="css/main.css" rel="stylesheet"/>-->
+
+    <!--<script src="https://code.jquery.com/jquery.js"></script>-->
+    <!--<script src="js/bootstrap.min.js"></script>-->
+</head>
+<body>
+
+<header>
+    <%-blocks.header%>
+</header>
+
+<section class="container">
+    <%-partial('../partials/topNavigation')%>
+    <h1><%blocks.title%></h1>
+    <%-body -%>
+</section>
+
+<footer>
+    <%-blocks.footer%>
+</footer>
+
+</body>
+</html>
