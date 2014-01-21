@@ -8,10 +8,11 @@ var http    = require('http');
 var path    = require('path');
 var config  = require('./config');
 var log     = require('./libs/log')(module);
+var engine  = require('ejs-locals');
 
 var app = express();
 
-app.engine('ejs', require('ejs-locals')); //layout partial block
+app.engine('ejs', engine); //layout partial block
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'ejs');
 
@@ -44,9 +45,7 @@ app.use(function(err, request, response, next) {
 
 
 app.get('/', function(request, response, next) {
-    response.render("index", {
-        body: 'Hello, mr. CAT'
-    })
+    response.render("index", {})
 });
 
 
