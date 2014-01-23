@@ -9,5 +9,14 @@
                 }
             }
         }
+    },
+    "session": {
+        "secret": "conquistador13",
+        "key": "sid",
+        "cookie": {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": null
+        }
     }
 }
