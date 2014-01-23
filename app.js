@@ -9,6 +9,7 @@ var path    = require('path');
 var config  = require('./config');
 var log     = require('./libs/log')(module);
 var engine  = require('ejs-locals');
+var HttpError = require('./error').HttpError;
 
 var app = express();
 
@@ -28,24 +29,31 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());//'your secret here'
 //app.use(express.session());
+app.use(require('./middleware/sendHttpError'));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//error handler
+require('./routes')(app);
+
+
 app.use(function(err, request, response, next) {
-    // NODE_ENV = 'production'
-    if (app.get('env') == 'development') {
-        var errorHandler = app.use(express.errorHandler());
-        errorHandler(err, request, response, next);
-    } else {
-        response.send(500);
+    if (typeof err == 'number') {
+        err = new HttpError(err);
     }
-});
 
-
-app.get('/', function(request, response, next) {
-    response.render("index", {})
+    if (err instanceof HttpError) {
+        response.sendHttpError(err);
+    } else {
+        if (app.get('env') == 'development') {
+            var errorHandler = express.errorHandler();
+            errorHandler(err, request, response, next);
+        } else {
+            log.error(err);
+            err = new HttpError(500);
+            response.sendHttpError(err);
+        }
+    }
 });
 
 
@@ -53,15 +61,3 @@ http.createServer(app).listen(config.get('port'), function(){
     log.info('Express server listening on port ' + config.get('port'));
 });
 
-
-//var routes = require('./routes');
-//var user = require('./routes/user');
-
-
-//// development only
-//if ('development' == app.get('env')) {
-//  app.use(express.errorHandler());
-//}
-//
-//app.get('/', routes.index);
-//app.get('/users', user.list);
