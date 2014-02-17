@@ -1,10 +1,15 @@
-<nav class="navbar navbar-default navbar-fixed-left" role="navigation">
+<nav class="navbar navbar-default" role="navigation">
     <ul class="nav navbar-nav">
-        <li class="<?php echo $this->Admin->activeMenuItem('dashboard'); ?>">
-            <a href="/">Dashboard</a>
-        </li>
-        <li>
-            <a href="/login">Login</a>
-        </li>
+        <li class=""><a href="/">Dashboard</a></li>
+        <% if(user) {%>
+            <li class=""><a href="/chat">Chat</a></li>
+        <%}%>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <% if (user) { %>
+            <li><a href="" onclick="$('<form method=POST action=/logout>').submit();return false">Logout </a></li>
+        <%} else {%>
+            <li><a href="/login">Login </a></li>
+        <%}%>
     </ul>
 </nav>

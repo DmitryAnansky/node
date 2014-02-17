@@ -39,12 +39,11 @@ app.use(express.session(
         cookie: config.get('session:cookie'),
         store: new MongoStore({mongoose_connection: mongoose.connection})
     }));
-//app.use(function(request, response, next) {
-//    request.session.numberOfVisits = request.session.numberOfVisits + 0.5 || 1;
-//    response.send("Visits: " + request.session.numberOfVisits);
-//});
 
+//middleware
 app.use(require('./middleware/sendHttpError'));
+app.use(require('./middleware/loadUser'));
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 

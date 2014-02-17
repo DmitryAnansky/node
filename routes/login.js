@@ -1,5 +1,5 @@
-var User  = require('models').User;
-var async = require('async'); 
+var User      = require('../models/user').User;
+var HttpError = require('../error').HttpError;
 
 exports.get = function(request, response) {
     response.render('login');
@@ -7,24 +7,19 @@ exports.get = function(request, response) {
 
 exports.post = function(request, response, next) {
     //need body parser included before
-    var userName = request.body.username;
+    var username = request.body.username;
     var password = request.body.password;
 
-    User.findOne({username: userName}, function(err, user) {
-        if(err) return next(err);
-
-        if(user) {
-            if(user.checkPassword(password)) {
-
+    User.authorize(username, password, function(err, user) {
+        if(err) {
+            if(err instanceof AuthError) {
+                return next(new HttpError(403, err.message));
             } else {
-
+                return next(err);
             }
-        } else {
-            var user = new User({username: userName, password: password});
-            user.save(function(err) {
-                if(err) return next(err);
-
-            });
         }
+
+        request.session.user = user._id;
+        response.send({});
     });
 }
