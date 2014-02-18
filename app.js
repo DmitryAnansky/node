@@ -31,13 +31,14 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());//'your secret here'
 
-var MongoStore = require('connect-mongo')(express);
+var sessionStorage = require('./libs/sessionStore');
+
 app.use(express.session(
     {
         secret: config.get('session:secret'),
         key: config.get('session:key'),
         cookie: config.get('session:cookie'),
-        store: new MongoStore({mongoose_connection: mongoose.connection})
+        store: sessionStorage
     }));
 
 //middleware
