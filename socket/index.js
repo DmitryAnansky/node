@@ -7,6 +7,14 @@ var sessionStore = require('../libs/sessionStore');
 var HttpError    = require('../error').HttpError;
 var User         = require('../models/user').User;
 
+function loadSession(sid, callback) {
+
+}
+
+function loadUser(session, callback) {
+
+}
+
 module.exports = function(server) {
     var io  = require('socket.io').listen(server);
     //set options to io
