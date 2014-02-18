@@ -1,6 +1,6 @@
 <% layout('layout/page') %>
 <% block('title', 'Chat') %>
-<script src="/socket.io/socket.io.js"></script>
+<script src="/vendor/bower_components/socket.io-client/dist/socket.io.js"></script>
 
 <p>Welcome, <%=user.get('username') %></p>
 
@@ -14,25 +14,54 @@
 
 
 <script>
-    var socket = io.connect();
+    var socket = io.connect('', {
+        reconnect: false
+    });
 
-    var form = $('#room form');
-    var ul = $('#room ul');
+    var form  = $('#room form');
+    var input = $('#room input');
+    var ul    = $('#room ul');
 
-    form.submit(function() {
-        var input = $(this).find(':input');
+    socket
+            .on('message', function(message) {
+                printMessage(message);
+            })
+            .on('connect', function() {
+                printStatus('connected');
+                form.on('submit', sendMessage);
+                input.prop('disable', false);
+            })
+            .on('disconnect', function() {
+                printStatus('disconnected');
+                form.off('submit', sendMessage);
+                input.prop('disable', true);
+                setTimeout(reconnect, 500);
+            });
+
+
+    function sendMessage() {
         var text = input.val();
-        input.val('');
-
         socket.emit('message', text, function(data) {
-            $('<li>', {text: text}).prependTo(ul);
+            printMessage(text);
         });
 
+        input.val('');
         return false;
-    });
+    }
 
-    socket.on('message', function (text) {
-        console.log(text);
-        $('<li>', {text: text}).prependTo(ul);
-    });
+    function printMessage(message) {
+        $('<li>', {text: message}).prependTo(ul);
+    }
+
+    function printStatus(status) {
+        $('<li>', {text: status}).prependTo(ul);
+    }
+
+    function reconnect() {
+        socket.once('error', function() {
+            setTimeout(reconnect, 500);
+        });
+        socket.socket.connect();
+    }
+
 </script>
