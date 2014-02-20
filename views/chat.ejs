@@ -37,6 +37,18 @@
                 form.on('submit', sendMessage);
                 input.prop('disable', false);
             })
+            .on('logout', function() {
+                location.href = "/";
+            })
+            .on('error', function(reason) {
+                if(reason == "handshake unauthorized") {
+                    printStatus("You are disconnected");
+                } else {
+                    setTimeOut(function() {
+                        socket.sockets.connect();
+                    }, 500);
+                }
+            })
             .on('disconnect', function() {
                 printStatus('disconnected');
                 form.off('submit', sendMessage);
