@@ -7,9 +7,17 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <% if (user) { %>
-            <li><a href="" onclick="$('<form method=POST action=/logout>').submit();return false">Logout </a></li>
+            <li><a id="logoutBtn" href="#">Logout </a></li>
         <%} else {%>
             <li><a href="/login">Login </a></li>
         <%}%>
     </ul>
+    <script>
+        $('#logoutBtn').on('click', function() {
+            $.ajax({
+                type: "POST",
+                url: '/logout'
+            });
+        });
+    </script>
 </nav>
