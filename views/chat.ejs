@@ -1,21 +1,24 @@
 <% layout('layout/page') %>
-<% block('title', 'Chat') %>
+<% block('title', 'Global chat') %>
 <script src="/vendor/bower_components/socket.io-client/dist/socket.io.js"></script>
 
 <p>Welcome, <%=user.get('username') %></p>
 
 <div id="room">
     <form>
-        <!--<input class="form-control" autocomplete="off" autofocus placeholder="Message.."/>-->
-        <div class="input-group">
+        <div class="input-group col-lg-5">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Send</button>
+              <button class="btn btn-default" type="submit">Send</button>
             </span>
-            <input type="text" class="form-control">
+            <input class="form-control" autocomplete="off" autofocus placeholder="Message.." type="text">
         </div>
     </form>
     <br/>
-    <ul></ul>
+    <div class="panel panel-default col-lg-5">
+        <div class="panel-body chat-body">
+
+        </div>
+    </div>
 </div>
 
 
@@ -26,11 +29,11 @@
 
     var form  = $('#room form');
     var input = $('#room input');
-    var ul    = $('#room ul');
+    var chatBody    = $('#room .chat-body');
 
     socket
             .on('message', function(username, message) {
-                printMessage(username + '>' + message);
+                printMessage(username + '#: ' + message);
             })
             .on('leave', function(username) {
                 printStatus(username + " disconnected");
@@ -74,11 +77,11 @@
     }
 
     function printMessage(message) {
-        $('<li>', {text: message}).prependTo(ul);
+        $('<li>', {text: message}).prependTo(chatBody);
     }
 
     function printStatus(status) {
-        $('<li>', {text: status}).prependTo(ul);
+        $('<li>', {text: status}).prependTo(chatBody);
     }
 
     function reconnect() {
