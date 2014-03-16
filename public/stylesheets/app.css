@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+.chat {
+    word-wrap: break-word;
+}
+
+.input-group-btn {
+    vertical-align: baseline;
+}

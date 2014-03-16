@@ -9,4 +9,7 @@ module.exports = function(app) {
     app.post('/logout', require('./logout').post);
 
     app.get('/chat', checkAuth, require('./chat').get);
+
+    app.get('/chat_rooms', checkAuth, require('./chatRooms').get);
+    app.post('/create_room', checkAuth, require('./chatRooms').post);
 }

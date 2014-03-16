@@ -2,7 +2,7 @@
 <% block('title', 'Global chat') %>
 <script src="/vendor/bower_components/socket.io-client/dist/socket.io.js"></script>
 
-<p>Welcome, <%=user.get('username') %></p>
+<p>Welcome:  <%=user.get('username') %></p>
 
 <div id="room">
     <form>
@@ -15,7 +15,7 @@
     </form>
     <br/>
     <div class="panel panel-default col-lg-5">
-        <div class="panel-body chat-body">
+        <div class="panel-body chat-body  chat">
 
         </div>
     </div>
@@ -69,7 +69,7 @@
     function sendMessage() {
         var text = input.val();
         socket.emit('message', text, function(data) {
-            printMessage(text);
+            printMessage("<%=user.get('username') %>#: " + text);
         });
 
         input.val('');
@@ -77,11 +77,11 @@
     }
 
     function printMessage(message) {
-        $('<li>', {text: message}).prependTo(chatBody);
+        $('<p>', {text: message}).prependTo(chatBody);
     }
 
     function printStatus(status) {
-        $('<li>', {text: status}).prependTo(chatBody);
+        $('<p>', {text: status}).prependTo(chatBody);
     }
 
     function reconnect() {

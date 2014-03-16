@@ -1,0 +1,47 @@
+<% layout('layout/page')%>
+<% block('title', 'Available rooms')%>
+
+<p>Welcome:  <%=user.get('username') %></p>
+
+<div class="block-panel">
+    <div class="row">
+        <div class="col-lg-5">
+            <form name="rooms-form">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="submit">Create room</button>
+                    </span>
+                    <input class="form-control" autocomplete="off" autofocus placeholder="Enter chat name" type="text">
+                    <span class="error help-block"></span>
+                </div>
+            </form>
+            <br/>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">Room #1</a>
+                <a href="#" class="list-group-item">Room #2</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document.forms['rooms-form']).on('submit', function() {
+        var form = $(this);
+
+        $('.error', form).html('');
+        $(":submit", form).button("loading");
+
+        $.ajax({
+            url: "/create_room",
+            method: "POST",
+            data: form.serialize,
+            complete: function() {
+                $(":submit", form).button('reset');
+            },
+            statusCode: {
+            //ToDo: add response
+            }
+        })
+        return false;
+    });
+</script>
