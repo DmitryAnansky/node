@@ -11,7 +11,7 @@
                     <span class="input-group-btn">
                       <button class="btn btn-default" type="submit">Create room</button>
                     </span>
-                    <input class="form-control" autocomplete="off" autofocus placeholder="Enter chat name" type="text">
+                    <input name="roomName" class="form-control" autocomplete="off" autofocus placeholder="Enter chat name" type="text"/>
                     <span class="error help-block"></span>
                 </div>
             </form>
@@ -34,7 +34,7 @@
         $.ajax({
             url: "/create_room",
             method: "POST",
-            data: form.serialize,
+            data: form.serialize(),
             complete: function() {
                 $(":submit", form).button('reset');
             },
